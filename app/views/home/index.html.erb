@@ -1,18 +1,24 @@
 <div class="flex justify-evenly">
   <div class="w-[25%] h-screen border-2">
-   
   </div>
-
-  <div class="border-2 w-[50%]">
-    <%= form_with(model: @post, local: true) do |form| %>
-      <%= form.label :body %>
-      <%= form.text_area :body %>
-      <%= form.label :image %>
-      <%= form.file_field :image %>
-      <%= form.submit %>
-    <% end %>
+  <div class="w-[50%] bg-gray-200">
+    <div class="bg-white p-4 w-[100%]">
+      <%= form_with(model: @post, local: true) do |form| %>
+        <div>
+          <%= form.text_area :body,placeholder: "What's happening?", class: "border-transparent focus:border-transparent focus:ring-0 border-none outline-none resize-none appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight" %>
+        </div>
+        <div class="flex items-center justify-between px-4">
+          <div class="mb-4">
+            <%= image_tag("picture.png", id: "imageIcon", class: "icon cursor-pointer w-8 h-8") %>
+            <%= form.file_field :image, class: "hidden appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          </div>
+          <div class="flex items-center justify-between">
+            <%= form.submit "Submit", class: "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-
   <div class="w-[25%] h-screen border-2">
   </div>
 </div>
