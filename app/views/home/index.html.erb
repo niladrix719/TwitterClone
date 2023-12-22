@@ -1,0 +1,18 @@
+<div class="flex justify-evenly">
+  <div class="w-[25%] h-screen border-2">
+   
+  </div>
+
+  <div class="border-2 w-[50%]">
+    <%= form_with(model: @post, local: true) do |form| %>
+      <%= form.label :body %>
+      <%= form.text_area :body %>
+      <%= form.label :image %>
+      <%= form.file_field :image %>
+      <%= form.submit %>
+    <% end %>
+  </div>
+
+  <div class="w-[25%] h-screen border-2">
+  </div>
+</div>
