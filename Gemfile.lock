@@ -217,6 +217,7 @@ PLATFORMS
   arm64-darwin-23
 
 DEPENDENCIES
+  activestorage (= 7.0.8)
   bootsnap
   capybara
   debug
