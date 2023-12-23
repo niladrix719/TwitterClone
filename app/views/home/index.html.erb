@@ -1,12 +1,12 @@
 <div class="flex justify-evenly">
-  <div class="w-[25%] border-2">
+  <div class="w-[25%] min-h-screen border-2">
     <%= render "sidebar"%>
   </div>
   <div class="w-[50%] bg-gray-200">
     <div class="p-4 bg-white border-y-2">
       <h1 class="font-bold">Home</h1>
     </div>
-    <div class="bg-white justify-evenly flex p-4 w-[100%]">
+    <div class="bg-white border-b-2 justify-evenly flex p-4 w-[100%]">
       <div class="w-[8%]">
         <%= image_tag("profile.jpg", class: "icon object-cover cursor-pointer rounded-full w-10 h-10") %>
       </div>
@@ -22,7 +22,7 @@
               <%= form.file_field :image, name: "post[image]", id: "fileInput", class: "hidden appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
             </div>
             <div class="flex items-center justify-between">
-              <%= form.submit "Submit", class: "bg-green-500 cursor-pointer hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+              <%= form.submit "Post", class: "bg-green-500 cursor-pointer hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
             </div>
           </div>
         <% end %>
@@ -48,16 +48,20 @@
           </div>
         </div>
         <div class="p-4 bg-white border-b-2 flex justify-between px-4">
-          <%= image_tag("edit.png", class: "w-6 h-6") %>
+          <%= link_to home_update_path(post), class: "w-6 h-6" do %>
+            <%= image_tag("edit.png", class: "w-6 h-6") %>
+          <% end %>
           <%= image_tag("love.png", class: "w-6 h-6") %>
-          <%= image_tag("delete.png", class: "w-6 h-6") %>
+          <%= form_with(model: post, url: home_destroy_path(post), method: :delete, data: { confirm: 'Are you sure?' }) do |form| %>
+            <%= image_tag("delete.png", class: "w-6 h-6", onclick: "this.closest('form').submit(); return false;") %>
+          <% end %>
           <%= image_tag("bookmark.png", class: "w-6 h-6") %>
           <%= image_tag("share.png", class: "w-6 h-6") %>
         </div>
       <% end %>
     </div>
   </div>
-  <div class="w-[25%] border-2">
+  <div class="w-[25%] min-h-screen border-2">
   </div>
 </div>
 <script>
@@ -97,15 +101,5 @@
       document.getElementById("optionsDiv").classList.add("border-t-2");
       document.getElementById("optionsDiv").classList.add("pt-4");
     }
-  });
-
-  document.getElementById("textInput").addEventListener("focus", function() {
-    document.getElementById("optionsDiv").classList.add("border-t-2");
-    document.getElementById("optionsDiv").classList.add("pt-4");
-  });
-
-  document.getElementById("textInput").addEventListener("blur", function() {
-    document.getElementById("optionsDiv").classList.remove("border-t-2");
-    document.getElementById("optionsDiv").classList.remove("pt-4");
   });
 </script>
