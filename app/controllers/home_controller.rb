@@ -12,6 +12,7 @@ class HomeController < ApplicationController
 
   def index
     @posts = Post.all
+    @editing = false
   end
 
   def destroy

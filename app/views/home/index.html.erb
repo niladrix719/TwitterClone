@@ -1,6 +1,6 @@
 <div class="flex justify-evenly">
   <div class="w-[25%] min-h-screen border-2">
-    <%= render "sidebar"%>
+    <%= render "sidebar" %>
   </div>
   <div class="w-[50%] bg-gray-200">
     <div class="p-4 bg-white border-y-2">
@@ -40,7 +40,10 @@
               </div>
             </div>
             <div class="w-full flex flex-col gap-4">
-              <p class="text-gray-700"><%= post.body %></p>
+              <p id="postBody" class="text-gray-700 text-lg font-medium"><%= post.body %></p>
+              <%= form_with(model: post, url: home_create_path, local: true) do |form| %>
+                <%= form.text_area :body, name: "post[body]", id: "textInput2", value: post.body, class: "p-0 hidden border-transparent text-lg font-medium cursor-pointer focus:border-transparent focus:ring-0 border-none outline-none resize-none appearance-none rounded w-full text-gray-700 leading-tight" %>
+              <% end %>
               <% if post.image.attached? %>
                 <%= image_tag(post.image, class: "w-full h-96 object-cover") %>
               <% end %>
@@ -48,13 +51,12 @@
           </div>
         </div>
         <div class="p-4 bg-white border-b-2 flex justify-between px-4">
-          <%= link_to home_update_path(post), class: "w-6 h-6" do %>
-            <%= image_tag("edit.png", class: "w-6 h-6") %>
-          <% end %>
           <%= image_tag("love.png", class: "w-6 h-6") %>
           <%= form_with(model: post, url: home_destroy_path(post), method: :delete, data: { confirm: 'Are you sure?' }) do |form| %>
             <%= image_tag("delete.png", class: "w-6 h-6", onclick: "this.closest('form').submit(); return false;") %>
           <% end %>
+          <%= image_tag("edit.png", id: "editButton", class: "w-6 h-6", onclick: "toggleEditMode()") %>
+          <%= image_tag("save.png", id: "saveButton", class: "w-6 h-6", onclick: "toggleEditMode()") %>
           <%= image_tag("bookmark.png", class: "w-6 h-6") %>
           <%= image_tag("share.png", class: "w-6 h-6") %>
         </div>
@@ -65,6 +67,28 @@
   </div>
 </div>
 <script>
+  function toggleEditMode() {
+    let editing = <%= @editing ? 'true' : 'false' %>;
+    editing = !editing;
+
+    const textInput = document.getElementById("textInput2");
+    const saveButton = document.getElementById("saveButton");
+    const editButton = document.getElementById("editButton");
+    const postBody = document.getElementById("postBody");
+
+    if (editing) {
+      textInput.classList.remove("hidden");
+      postBody.classList.add("hidden");
+      editButton.style.display = "none";
+      saveButton.style.display = "inline-block";
+    } else {
+      textInput.classList.add("hidden");
+      postBody.classList.remove("hidden");
+      editButton.style.display = "inline-block";
+      saveButton.style.display = "none";
+    }
+  }
+
   document.getElementById("imageIcon").addEventListener("click", function() {
     document.getElementById("fileInput").click();
   });
@@ -93,8 +117,8 @@
         previewContainer.appendChild(crossIcon);
 
         document.getElementById("crossIcon").addEventListener("click", function() {
-        document.getElementById("imagePreview").innerHTML = "";
-  });
+          document.getElementById("imagePreview").innerHTML = "";
+        });
       };
 
       reader.readAsDataURL(file);
